@@ -12,8 +12,8 @@ exec($schedule_cmd, $output);
 sort($output);
 
 // determine the position of the speedtest schedule tab relative to other plugins
-$speedtest_tab = array_search('SpeedtestSchedule.page', $output) + 1;
+$s_tab = array_search('SpeedtestSchedule.page', $output) + 1;
 
 // determine the tab posistion for speedtest schedule tab
-$scheduler_tab = $cache_tab + $parity_tab + $speedtest_tab;
+$scheduler_tab = $cache_tab + $parity_tab + $s_tab;
 ?>
