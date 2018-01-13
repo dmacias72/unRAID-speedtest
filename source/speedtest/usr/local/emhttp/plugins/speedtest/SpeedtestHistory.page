@@ -130,7 +130,7 @@ table.tablesorter tbody tr:nth-child(even) {
 <script>
 $(function(){
     //var DateTimeFormat = "<?=$display['date']?>"+(("<?=$display['date']?>"!='%c') ? ", "+"<?=$display['time']?>" : "");
-    var Units = ("<?=$speedtest_units;?>" == 'bits') ? "Mbit/s" : "Mbyte/s";
+    var Units = ("<?=$s_units;?>" == 'bits') ? "Mbit/s" : "Mbyte/s";
 
     // append tabs for settings and scheduler and chart switch
     $('.tabs')
@@ -453,7 +453,7 @@ function parseDataXML(){
                 Distance  = HostArray[1].replace(/]/g,'').trim();
 
             var Ping      = ($(this).attr('ping')) ? $(this).attr('ping') : '--';
-            var Units     = ("<?=$speedtest_units;?>" == 'bits') ? 'Mbit/s' : 'Mbyte/s';
+            var Units     = ("<?=$s_units;?>" == 'bits') ? 'Mbit/s' : 'Mbyte/s';
             var DArray    = ($(this).attr('download')) ? $(this).attr('download').split(' ') : [0,Units];
             var UArray    = ($(this).attr('upload')) ? $(this).attr('upload').split(' ') : [0,Units];
             var Share     = ($(this).attr('share')) ? $(this).attr('share') : '';
