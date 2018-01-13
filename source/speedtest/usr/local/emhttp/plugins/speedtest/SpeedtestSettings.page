@@ -15,31 +15,32 @@ require_once '/usr/local/emhttp/plugins/speedtest/include/scheduler_tab.php';
 
 Speedtest Script Version:
 : <select id="VERSION" name="VERSION" size="1" >
-    <?=mk_option($speedtest_version, "latest", "latest");?>
-    <?=mk_option($speedtest_version, "1.0.3", "v1.0.3");?>
-    <?=mk_option($speedtest_version, "1.0.2", "v1.0.2");?>
-    <?=mk_option($speedtest_version, "1.0.1", "v1.0.1");?>
-    <?=mk_option($speedtest_version, "1.0.0", "v1.0.0");?>
-    <?=mk_option($speedtest_version, "0.3.4", "v0.3.4");?>
-    <?=mk_option($speedtest_version, "0.3.1", "v0.3.1");?>
+    <?=mk_option($s_version, "latest", "v".$s_latest);?>
+    <?=mk_option($s_version, "1.0.6", "v1.0.6");?>
+    <?=mk_option($s_version, "1.0.3", "v1.0.3");?>
+    <?=mk_option($s_version, "1.0.2", "v1.0.2");?>
+    <?=mk_option($s_version, "1.0.1", "v1.0.1");?>
+    <?=mk_option($s_version, "1.0.0", "v1.0.0");?>
+    <?=mk_option($s_version, "0.3.4", "v0.3.4");?>
+    <?=mk_option($s_version, "0.3.1", "v0.3.1");?>
   </select>
 
 > Choose a version of speedtest script to use.
 
 Speedtest Timeout in Seconds:
 : <select id="TIMEOUT" name="TIMEOUT" size="1" class="speedtest-cli">
-    <?=mk_option($speedtest_timeout, "10", "10");?>
-    <?=mk_option($speedtest_timeout, "20", "20");?>
-    <?=mk_option($speedtest_timeout, "30", "30");?>
-    <?=mk_option($speedtest_timeout, "30", "60");?>
+    <?=mk_option($s_timeout, "10", "10");?>
+    <?=mk_option($s_timeout, "20", "20");?>
+    <?=mk_option($s_timeout, "30", "30");?>
+    <?=mk_option($s_timeout, "30", "60");?>
   </select>
 
 > Choose a HTTP timeout of speedtest in seconds.
 
 Enable Secure Connection:
 : <select id="SECURE" name="SECURE" size="1" class="speedtest-cli">
-      <?=mk_option($speedtest_secure, "no", "No");?>
-      <?=mk_option($speedtest_secure, "secure", "Yes");?>
+      <?=mk_option($s_secure, "no", "No");?>
+      <?=mk_option($s_secure, "secure", "Yes");?>
   </select>
 
 > Choose to use an ssl connection to speedtest server.
@@ -49,8 +50,8 @@ Enable Secure Connection:
 
  Save Speed Values As:
 : <select id="UNITS" name="UNITS" size="1" class="speedtest-cli">
-      <?=mk_option($speedtest_units, "bits", "bits");?>
-      <?=mk_option($speedtest_units, "bytes", "bytes");?>
+      <?=mk_option($s_units, "bits", "Mbit/s");?>
+      <?=mk_option($s_units, "bytes", "Mbyte/s");?>
   </select>
 
 > Choose the units to use for saved speedtest results.
@@ -60,8 +61,8 @@ Enable Secure Connection:
 
 Create Results Image:
 : <select id="SHARE" name="SHARE" size="1" class="speedtest-cli">
-      <?=mk_option($speedtest_share, "no", "No");?>
-      <?=mk_option($speedtest_share, "share", "Yes");?>
+      <?=mk_option($s_share, "no", "No");?>
+      <?=mk_option($s_share, "share", "Yes");?>
   </select>
 
 > Choose to create a speedtest image when running tests.
@@ -71,14 +72,55 @@ Create Results Image:
 
 Select Speedtest Server:
 : <select id="LIST" name="LIST" size="1">
-  <?=mk_option($speedtest_list, "auto", "Auto");?>
-  <?=mk_option($speedtest_list, "manual", "Manual");?>
+  <?=mk_option($s_list, "auto", "Auto");?>
+  <?=mk_option($s_list, "manual", "Manual");?>
   </select>
 
 > Choose a specific server to run tests against
 >
 > Auto picks closest server for you.
 
+Enable Notifications:
+: <select id="NOTIFY" name="NOTIFY" size="1" class="speedtest-cli">
+      <?=mk_option($s_notify, "no", "No");?>
+      <?=mk_option($s_notify, "yes", "Yes");?>
+  </select>
+
+> Choose speedtest notification settings.
+>
+> Yes to use enable notification of results when speedtest is run.
+
+Enable Alert Only Notification:
+: <select id="ALERT" name="ALERT" size="1" class="speedtest-cli">
+      <?=mk_option($s_alert, "no", "No");?>
+      <?=mk_option($s_alert, "yes", "Yes");?>
+  </select>
+
+> Choose speedtest alert only notification settings.
+>
+> Yes to enable notification of results ONLY when speedtest is below a threshold.
+> No to enable alert for every result
+
+Ping Threshold (ms):
+: <input id="PING" type="text" class="narrow" name="PING" maxlength="3" value="<?=intval($s_ping);?>" title="ping to trigger alert" placeholder="0" >
+
+> Choose speedtest ping threshold in milliseconds.
+>
+> Enter lowest ping value (0-999) to trigger alert. Default is 0.
+
+Download Threshold <label class="units"></label>:
+: <input id="DOWNLOAD" type="text" class="narrow" name="DOWNLOAD" maxlength="4" value="<?=intval($s_download);?>" title="download result to trigger alert" placeholder="0" >
+
+> Choose speedtest download threshold in Mbps/Mbps.
+>
+> Enter lowest download result (0-9999) to trigger alert. Default is 0.
+
+Upload Threshold <label class="units"></label>:
+: <input id="UPLOAD" type="text" class="narrow" name="UPLOAD" maxlength="4" value="<?=intval($s_upload);?>" title="upload result to trigger alert" placeholder="0" >
+
+> Choose speedtest upload threshold in Mbps/Mbps.
+>
+> Enter lowest upload result (0-9999) to trigger alert. Default is 0.
 
 &nbsp;
 : <select class="serverlist" id="SERVER" name="SERVER" size="1">
@@ -86,13 +128,15 @@ Select Speedtest Server:
   </select>
 
 <input id="DEFAULT" type="submit" value="Default">
-: <input id="btnApply" type="submit" value="Apply" ><input type="button" value="Done" onClick="done()">
+: <input id="btnApply" type="submit" value="Apply" ><button hidden class="begin">Begin Test</button><input type="button" value="Done" onClick="done()">
 
 > Default button resets settings to default values.
 
 &nbsp;
 
 </form>
+
+<script src="/plugins/speedtest/js/jquery.mask.min.js"></script>
 
 <script>
 $(function(){
@@ -124,7 +168,7 @@ $(function(){
         location = '/Settings/Scheduler';
     });
 
-    var Selected = "<?=$speedtest_server;?>";
+    var Selected = "<?=$s_server;?>";
 
     $('#LIST').change(function () {
         if ($('#LIST')[0].selectedIndex){
@@ -152,7 +196,34 @@ $(function(){
 
     $('#DEFAULT').on('click', resetDATA);
 
+    $('#UNITS').change(function () {
+        if ($('#UNITS')[0].selectedIndex)
+            $('.units').text('(Mbyte/s)');
+        else
+            $('.units').text('(Mbit/s)');
+    });
+
+    if ($('#UNITS')[0].selectedIndex)
+        $('.units').text('(Mbyte/s)');
+    else
+        $('.units').text('(Mbit/s)');
+
+    $('.bitsegin').click(settingsTEST);// bind click to begin test
+
+    $('#PING').mask('ZZZ.000', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+    $('#DOWNLOAD').mask('ZZZZ.000', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+    $('#UPLOAD').mask('ZZZZ.000', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
+
 });
+
+// open shadowbox and begin speedtest
+function settingsTEST() {
+    // open shadowbox window (run in foreground)
+    var run = '/logging.htm?cmd=/plugins/speedtest/scripts/speedtest-xml&arg1=--verbose'+"&csrf_token=<?=$var['csrf_token']?>";
+    var options = {modal:true};
+    Shadowbox.open({content:run, player:'iframe', title:'Speedtest', height:400, width:600, options:options});
+}
+
 
 function resetDATA() {
     $('#VERSION').val('latest');
@@ -162,6 +233,11 @@ function resetDATA() {
     $('#UNITS').val('bits');
     $('#LIST').val('auto');
     $('#SERVER').val(0);
+    $('#NOTIFY').val('no');
+    $('#ALERT').val('no');
+    $('#PING').val(0);
+    $('#DOWNLOAD').val(0);
+    $('#UPLOAD').val(0);
 }
 
 // list all available servers
