@@ -16,9 +16,9 @@ Title="Speedtest"
 ?>
 
 <?
-$speedtest_cron = parse_plugin_cfg('speedtest');
-$speedtest_mode = array('Disabled','Hourly','Daily','Weekly','Monthly');
-$speedtest_days = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+$s_cron = parse_plugin_cfg('speedtest');
+$s_mode = array('Disabled','Hourly','Daily','Weekly','Monthly');
+$s_days = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
 ?>
 <script>
 $(function() {
@@ -51,8 +51,8 @@ function prepareSpeedtest(form) {
 <input type="hidden" name="hour" value="">
 Speedtest schedule:
 : <select name="mode" size="1" onchange="presetSpeedtest(this.form)">
-  <?for ($m=0; $m<count($speedtest_mode); $m++):?>
-  <?=mk_option($speedtest_cron['mode'], strval($m), $speedtest_mode[$m])?>
+  <?for ($m=0; $m<count($s_mode); $m++):?>
+  <?=mk_option($s_cron['mode'], strval($m), $s_mode[$m])?>
   <?endfor;?>
   </select>
 
@@ -62,10 +62,10 @@ Speedtest schedule:
 
 Day of the week:
 : <select name="day" size="1">
-  <?for ($d=0; $d<count($speedtest_days); $d++):?>
-  <?=mk_option($speedtest_cron['day'], strval($d), $speedtest_days[$d])?>
+  <?for ($d=0; $d<count($s_days); $d++):?>
+  <?=mk_option($s_cron['day'], strval($d), $s_days[$d])?>
   <?endfor;?>
-  <?=mk_option($speedtest_cron['day'], "*", "--------", "disabled")?>
+  <?=mk_option($s_cron['day'], "*", "--------", "disabled")?>
   </select>
 
 > Choose a day when the weekly schedule is selected. Otherwise disabled.
@@ -73,9 +73,9 @@ Day of the week:
 Day of the month:
 : <select name="dotm" size="1">
   <?for ($d=1; $d<=31; $d++):?>
-  <?=mk_option($speedtest_cron['dotm'], strval($d), sprintf("%02d", $d))?>
+  <?=mk_option($s_cron['dotm'], strval($d), sprintf("%02d", $d))?>
   <?endfor;?>
-  <?=mk_option($speedtest_cron['dotm'], "*", "--------", "disabled")?>
+  <?=mk_option($s_cron['dotm'], "*", "--------", "disabled")?>
   </select>
 
 > Choose a date when the monthly schedule is selected. Otherwise disabled.
@@ -83,21 +83,21 @@ Day of the month:
 Time of the day:
 : <span id="speedtest_hour1" style="display:none"><select name="hour1" size="1" class="narrow">
   <?for ($d=0; $d<=23; $d++):?>
-  <?=mk_option($speedtest_cron['hour'], strval($d), sprintf("%02d", $d))?>
+  <?=mk_option($s_cron['hour'], strval($d), sprintf("%02d", $d))?>
   <?endfor;?>
   </select>
   <select name="min" size="1" class="narrow">
   <?for ($d=0; $d<=55; $d+=5):?>
-  <?=mk_option($speedtest_cron['min'], strval($d), sprintf("%02d", $d))?>
+  <?=mk_option($s_cron['min'], strval($d), sprintf("%02d", $d))?>
   <?endfor;?>
   </select>&nbsp;&nbsp;HH:MM</span>
 : <span id="speedtest_hour2" style="display:none"><select name="hour2" size="1">
-  <?=mk_option($speedtest_cron['hour'], "*/1", "Every hour")?>
-  <?=mk_option($speedtest_cron['hour'], "*/2", "Every 2 hours")?>
-  <?=mk_option($speedtest_cron['hour'], "*/3", "Every 3 hours")?>
-  <?=mk_option($speedtest_cron['hour'], "*/4", "Every 4 hours")?>
-  <?=mk_option($speedtest_cron['hour'], "*/6", "Every 6 hours")?>
-  <?=mk_option($speedtest_cron['hour'], "*/8", "Every 8 hours")?>
+  <?=mk_option($s_cron['hour'], "*/1", "Every hour")?>
+  <?=mk_option($s_cron['hour'], "*/2", "Every 2 hours")?>
+  <?=mk_option($s_cron['hour'], "*/3", "Every 3 hours")?>
+  <?=mk_option($s_cron['hour'], "*/4", "Every 4 hours")?>
+  <?=mk_option($s_cron['hour'], "*/6", "Every 6 hours")?>
+  <?=mk_option($s_cron['hour'], "*/8", "Every 8 hours")?>
   </select></span>
 
 > When an hourly schedule is selected this will set the interval in hours. An interval always starts on the whole hour (minute 0).
