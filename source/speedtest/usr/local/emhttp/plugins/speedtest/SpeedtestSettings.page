@@ -140,6 +140,11 @@ Upload Threshold <label class="units"></label>:
 
 <script>
 $(function(){
+    // check for python 2
+    if ("<?=$s_python;?>"){
+        swal({title:'Python 2 Not Installed',text:'This plugin requires python 2 from the NerdPack plugin https://raw.githubusercontent.com/dmacias72/unRAID-NerdPack/master/plugin/NerdPack.plg',type:'error',closeOnConfirm: true});
+    }
+
     // append tabs for History and Scheduler
     $('.tabs')
         .append('<div class="tab"><input type="radio" name="tabs2" id="tab3"><label for="tab3"><img class="icon" src="/plugins/speedtest/icons/history.png">History</label></div>')

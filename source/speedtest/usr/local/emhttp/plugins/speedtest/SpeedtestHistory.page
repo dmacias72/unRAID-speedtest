@@ -129,6 +129,10 @@ table.tablesorter tbody tr:nth-child(even) {
 
 <script>
 $(function(){
+    // check for python 2
+    if ("<?=$s_python;?>"){
+        swal({title:'Python 2 Not Installed',text:'This plugin requires python 2 from the NerdPack plugin https://raw.githubusercontent.com/dmacias72/unRAID-NerdPack/master/plugin/NerdPack.plg',type:'error',closeOnConfirm: true});
+    }
     //var DateTimeFormat = "<?=$display['date']?>"+(("<?=$display['date']?>"!='%c') ? ", "+"<?=$display['time']?>" : "");
     var Units = ("<?=$s_units;?>" == 'bits') ? "Mbit/s" : "Mbyte/s";
 

@@ -14,6 +14,7 @@ $s_timeout  = isset($s_cfg['TIMEOUT'])  ? intval($s_cfg['TIMEOUT'])           : 
 $s_units    = isset($s_cfg['UNITS'])    ? htmlspecialchars($s_cfg['UNITS'])   : 'bits';
 $s_upload   = isset($s_cfg['UPLOAD'])   ? intval($s_cfg['UPLOAD'])            : 0;
 $s_version  = isset($s_cfg['VERSION'])  ? htmlspecialchars($s_cfg['VERSION']) : 'latest';
+$s_python   = (!file_exists('/usr/bin/python'));
 $s_latest   = trim(shell_exec('/usr/bin/python /usr/local/emhttp/plugins/speedtest/scripts/speedtest-latest.py --version'));
 
 $s_filename = '/boot/config/plugins/speedtest/speedtest.xml';
