@@ -25,6 +25,8 @@ This Plugin installs speedtest-cli for unRaid 6.1  All dependencies are installe
 - update speedtest to version 1.0.7
 - update python to 2.7.14a
 - add notifications and alerts
+- require NerdPack Python 2
+- add notification of missing python
 ###2017.11.14
 - convert download and upload speeds based on units in settings
 ###2017.10.03
