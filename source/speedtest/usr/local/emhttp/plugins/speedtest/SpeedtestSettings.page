@@ -111,14 +111,14 @@ Ping Threshold (ms):
 Download Threshold <label class="units"></label>:
 : <input id="DOWNLOAD" type="text" class="narrow" name="DOWNLOAD" maxlength="4" value="<?=intval($s_download);?>" title="download result to trigger alert" placeholder="0" >
 
-> Choose speedtest download threshold in Mbps/Mbps.
+> Choose speedtest download threshold.
 >
 > Enter lowest download result (0-9999) to trigger alert. Default is 0.
 
 Upload Threshold <label class="units"></label>:
 : <input id="UPLOAD" type="text" class="narrow" name="UPLOAD" maxlength="4" value="<?=intval($s_upload);?>" title="upload result to trigger alert" placeholder="0" >
 
-> Choose speedtest upload threshold in Mbps/Mbps.
+> Choose speedtest upload threshold.
 >
 > Enter lowest upload result (0-9999) to trigger alert. Default is 0.
 
