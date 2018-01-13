@@ -193,7 +193,7 @@ This Plugin installs speedtest-cli for unRaid 6.1  All dependencies are installe
 - initial commit
 </CHANGES>
 
-<FILE Name="&nplgPATH;/pyOpenSSL-0.15.1-x86_64-1_slack.txz" Min="6.1" Run="/sbin/upgradepkg --install-new">
+<FILE Name="&plgPATH;/pyOpenSSL-0.15.1-x86_64-1_slack.txz" Min="6.1" Run="/sbin/upgradepkg --install-new">
 <URL>&pkgURL;/pyOpenSSL-0.15.1-x86_64-1_slack.txz</URL>
 <MD5>b422874df919df6baa10774bd2ddc2cc</MD5>
 </FILE>
