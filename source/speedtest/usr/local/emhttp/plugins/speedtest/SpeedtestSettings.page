@@ -128,7 +128,7 @@ Upload Threshold <label class="units"></label>:
   </select>
 
 <input id="DEFAULT" type="submit" value="Default">
-: <input id="btnApply" type="submit" value="Apply" ><button hidden class="begin">Begin Test</button><input type="button" value="Done" onClick="done()">
+: <input id="btnApply" type="submit" value="Apply" ><button type="button" class="begin">Begin Test</button><input type="button" value="Done" onClick="done()">
 
 > Default button resets settings to default values.
 
@@ -213,7 +213,7 @@ $(function(){
     else
         $('.units').text('(Mbit/s)');
 
-    $('.bitsegin').click(settingsTEST);// bind click to begin test
+    $('.begin').click(settingsTEST);// bind click to begin test
 
     $('#PING').mask('ZZZ.000', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
     $('#DOWNLOAD').mask('ZZZZ.000', {translation:  {'Z': {pattern: /[0-9]/, optional: true}}});
@@ -228,7 +228,6 @@ function settingsTEST() {
     var options = {modal:true};
     Shadowbox.open({content:run, player:'iframe', title:'Speedtest', height:400, width:600, options:options});
 }
-
 
 function resetDATA() {
     $('#VERSION').val('latest');
