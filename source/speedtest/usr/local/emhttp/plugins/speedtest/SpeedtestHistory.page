@@ -133,6 +133,7 @@ $(function(){
     if ("<?=$s_python;?>"){
         swal({title:'Python 2 Not Installed',text:'This plugin requires python 2 from the NerdPack plugin https://raw.githubusercontent.com/dmacias72/unRAID-NerdPack/master/plugin/NerdPack.plg',type:'error',closeOnConfirm: true});
     }
+
     //var DateTimeFormat = "<?=$display['date']?>"+(("<?=$display['date']?>"!='%c') ? ", "+"<?=$display['time']?>" : "");
     var Units = ("<?=$s_units;?>" == 'bits') ? "Mbit/s" : "Mbyte/s";
 
@@ -448,6 +449,7 @@ function parseDataXML(){
         cache: false,
         url: '/boot/config/plugins/speedtest/speedtest.xml',
         success: function(xml) {
+        var Protocol = location.protocol;
         $(xml).find('test').each(function(){
             var Name      = $(this).attr('name');
             var HostArray = ($(this).attr('host')) ? $(this).attr('host').split(' [') : ['--','--'];
@@ -460,7 +462,7 @@ function parseDataXML(){
             var Units     = ("<?=$s_units;?>" == 'bits') ? 'Mbit/s' : 'Mbyte/s';
             var DArray    = ($(this).attr('download')) ? $(this).attr('download').split(' ') : [0,Units];
             var UArray    = ($(this).attr('upload')) ? $(this).attr('upload').split(' ') : [0,Units];
-            var Share     = ($(this).attr('share')) ? $(this).attr('share') : '';
+            var Share     = ($(this).attr('share')) ? $(this).attr('share').replace('http:',Protocol) : '';
             var Download  = parseFloat(DArray[0]);
             var Upload    = parseFloat(UArray[0]);
 
