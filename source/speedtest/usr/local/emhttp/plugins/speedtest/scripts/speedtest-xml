@@ -144,7 +144,7 @@ if ($s_notify == 'yes'){
         $warn = 'warning';
         $stat .= ' Upload';
     }
-    if ($ping > $s_ping){
+    if ($ping > $s_ping && $s_ping > 0){
         $warn = 'warning';
         $stat .= ' Ping';
     }
