@@ -16,6 +16,8 @@ Title="Speedtest"
 ?>
 
 <?
+require_once '/usr/local/emhttp/plugins/speedtest/include/scheduler_tab.php';
+
 $s_cron = parse_plugin_cfg('speedtest');
 $s_mode = array('Disabled','Hourly','Daily','Weekly','Monthly');
 $s_days = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
@@ -23,6 +25,13 @@ $s_days = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 <script>
 $(function() {
   presetSpeedtest(document.speedtest_schedule);
+  var SchedulerTab = "<?=$scheduler_tab;?>";
+  var InitTab = $.cookie('one');
+  $('#'+SchedulerTab).click(function() {
+      if ( InitTab == SchedulerTab)
+        window.history.back();
+   });
+
 });
 
 function presetSpeedtest(form) {
