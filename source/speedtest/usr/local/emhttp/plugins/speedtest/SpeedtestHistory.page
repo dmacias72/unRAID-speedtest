@@ -162,7 +162,7 @@ $(function(){
 
     // goto speedtest scheduler page
     $('#tab4').on('click', function() {
-        $.cookie('one', "<?='tab'.intval($scheduler_tab);?>", { expires:null, path: '/'});
+        $.cookie('one', "<?=$scheduler_tab;?>", { expires:null, path: '/'});
         location = '/Settings/Scheduler';
     });
 
