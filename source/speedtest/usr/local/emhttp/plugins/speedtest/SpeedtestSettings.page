@@ -90,37 +90,38 @@ Enable Notifications:
 >
 > Yes to use enable notification of results when speedtest is run.
 
-Enable Alert Only Notification:
+Enable Warning Only Notification:
 : <select id="ALERT" name="ALERT" size="1" class="speedtest-cli">
-      <?=mk_option($s_alert, "no", "No");?>
-      <?=mk_option($s_alert, "yes", "Yes");?>
+      <?=mk_option($s_warn, "no", "No");?>
+      <?=mk_option($s_warn, "yes", "Yes");?>
   </select>
 
-> Choose speedtest alert only notification settings.
+> Choose speedtest warning only notification settings.
 >
 > Yes to enable notification of results ONLY when speedtest is below a threshold.
+> This follows the unRAID warnings notification setting
 > No to enable alert for every result
 
 Ping Threshold (ms):
-: <input id="PING" type="text" class="narrow" name="PING" maxlength="3" value="<?=intval($s_ping);?>" title="ping to trigger alert" placeholder="0" >
+: <input id="PING" type="text" class="narrow" name="PING" maxlength="3" value="<?=intval($s_ping);?>" title="ping to trigger warning" placeholder="0" >
 
 > Choose speedtest ping threshold in milliseconds.
 >
-> Enter lowest ping value (0-999) to trigger alert. Default is 0.
+> Enter lowest ping value (0-999) to trigger warning. Default is 0.
 
 Download Threshold <label class="units"></label>:
-: <input id="DOWNLOAD" type="text" class="narrow" name="DOWNLOAD" maxlength="4" value="<?=intval($s_download);?>" title="download result to trigger alert" placeholder="0" >
+: <input id="DOWNLOAD" type="text" class="narrow" name="DOWNLOAD" maxlength="4" value="<?=intval($s_download);?>" title="download result to trigger warning" placeholder="0" >
 
 > Choose speedtest download threshold.
 >
-> Enter lowest download result (0-9999) to trigger alert. Default is 0.
+> Enter lowest download result (0-9999) to trigger warning. Default is 0.
 
 Upload Threshold <label class="units"></label>:
-: <input id="UPLOAD" type="text" class="narrow" name="UPLOAD" maxlength="4" value="<?=intval($s_upload);?>" title="upload result to trigger alert" placeholder="0" >
+: <input id="UPLOAD" type="text" class="narrow" name="UPLOAD" maxlength="4" value="<?=intval($s_upload);?>" title="upload result to trigger warning" placeholder="0" >
 
 > Choose speedtest upload threshold.
 >
-> Enter lowest upload result (0-9999) to trigger alert. Default is 0.
+> Enter lowest upload result (0-9999) to trigger warning. Default is 0.
 
 &nbsp;
 : <select class="serverlist" id="SERVER" name="SERVER" size="1">
@@ -141,8 +142,8 @@ Upload Threshold <label class="units"></label>:
 <script>
 $(function(){
     // check for python 2
-    if ("<?=$s_python;?>"){
-        swal({title:'Python 2 Not Installed',text:'This plugin requires python 2 from the NerdPack plugin https://raw.githubusercontent.com/dmacias72/unRAID-NerdPack/master/plugin/NerdPack.plg',type:'error',closeOnConfirm: true});
+    if ("<?=$s_python2;?>"){
+        swal({title:'Python 2 Not Installed',text:'This plugin requires python 2 from the NerdPack plugin.\n https://raw.githubusercontent.com/dmacias72/unRAID-NerdPack/master/plugin/NerdPack.plg\n Go to Settings/NerdPack and install python-2.7',type:'error',closeOnConfirm: true});
     }
 
     // append tabs for History and Scheduler
@@ -153,7 +154,7 @@ $(function(){
     // dynamix plugin update api
     <?if (function_exists('plugin_update_available') && $version = plugin_update_available('speedtest')):?>
         showNotice('Speedtest <?=htmlspecialchars($version);?> available. <a>Update</a>','speedtest');
-        $('#user-notice a').on('click', function () {
+        $('#user-notice a').on('click',function () {
             $('#user-notice').empty();
         });
     <?endif;?>
@@ -162,14 +163,14 @@ $(function(){
     $('#tab2').parent().hide();
 
     // goto Speedtest Tools Menu
-    $('#tab3').click(function() {
+    $('#tab3').on('click',function() {
         $.cookie('one', 'tab1', { expires:null, path: '/'});
         location = '/Tools/SpeedtestTools';
     });
 
     // goto scheduler tab
-    $('#tab4').click(function() {
-        $.cookie('one', "<?='tab'.intval($scheduler_tab);?>", { expires:null, path: '/'});
+    $('#tab4').on('click',function() {
+        $.cookie('one', "<?=$scheduler_tab;?>", { expires:null, path: '/'});
         location = '/Settings/Scheduler';
     });
 
