@@ -15,5 +15,5 @@ sort($output);
 $s_tab = array_search('SpeedtestSchedule.page', $output) + 1;
 
 // determine the tab posistion for speedtest schedule tab
-$scheduler_tab = $cache_tab + $parity_tab + $s_tab;
+$scheduler_tab = 'tab'.intval($cache_tab + $parity_tab + $s_tab);
 ?>
