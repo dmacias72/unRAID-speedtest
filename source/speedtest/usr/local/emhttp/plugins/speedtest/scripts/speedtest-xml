@@ -134,24 +134,29 @@ if ($s_notify == 'yes'){
     $docroot = $docroot ?? $_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
     $notify  = "$docroot/webGui/scripts/notify";
     $server  = strtoupper($var['NAME']);
-    $warn = 'normal';
+    $stat = '';
     if ($download < $s_download){
-        $warn = 'warning';
         $stat .= ' Download';
     }
     if ($upload < $s_upload){
-        $warn = 'warning';
         $stat .= ' Upload';
     }
     if ($ping > $s_ping && $s_ping > 0){
-        $warn = 'warning';
         $stat .= ' Ping';
     }
+    if (empty($stat)){
+        $warn = 'normal';
+        $subject = 'Notice';
+    }else{
+        $warn = 'warning';
+        $subject = 'Warning';
+    }
+
     if (($warn == 'warning' && $s_warn == 'yes') || ($warn == 'normal' && $s_warn == 'no') || ($warn == 'warning' && $s_warn == 'no')){
         $stat .= $warn=='normal' ? ' [PASS]' : ' [FAIL]';
         $message = "Host: ${host} | ${result}";
 
-        exec("$notify -s ".escapeshellarg("Notice [$server] - Speedtest${stat}")." -d ".escapeshellarg("$info")." -m ".escapeshellarg("$message")." -i ".escapeshellarg("$warn"));
+        exec("$notify -e ".escapeshellarg("Network Status")." -s ".escapeshellarg("$subject [$server] - Speedtest${stat}")." -d ".escapeshellarg("$info")." -m ".escapeshellarg("$message")." -i ".escapeshellarg("$warn"));
     }
 }
 
