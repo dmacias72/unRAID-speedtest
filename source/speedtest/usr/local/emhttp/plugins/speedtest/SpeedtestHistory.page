@@ -52,10 +52,10 @@ table.tablesorter tbody tr:nth-child(even) {
         &nbsp;
         <label class="btnBegin btn btn-default btn-sm active"> Begin Test </label>
         <i id="scatter" class="fa fa-lg fa-ellipsis-h  clickable" title="Scatter Graph"></i>
-      <i id="line" class="fa fa-lg fa-line-chart clickable" title="Line Graph"></i>
-       <i id="area" class="fa fa-area-chart clickable" title="Area Graph"></i>
+        <i id="line" class="fa fa-lg fa-line-chart clickable" title="Line Graph"></i>
+        <i id="area" class="fa fa-area-chart clickable" title="Area Graph"></i>
         <i id="vbar" class="fa fa-bar-chart clickable" title="Vertical Bar Chart"></i>
-       <i id="hbar" class="fa fa-align-left clickable" title="Horizontal Bar Chart"></i>
+        <i id="hbar" class="fa fa-align-left clickable" title="Horizontal Bar Chart"></i>
     </div>
     <blockquote class="inline_help">
         <p>Charts can be modified by using the chart buttons: The Filtered button displays only filtered data from the table, The Visible button displays only the visible data in the table and the All button will show every bit of data from the table.</p>
@@ -141,7 +141,8 @@ $(function(){
     $('.tabs')
         .append('<div class="tab"><input type="radio" name="tabs2" id="tab3"><label for="tab3"><img class="icon" src="/plugins/speedtest/icons/settings.png">Settings</label></div>')
         .append('<div class="tab"><input type="radio" name="tabs2" id="tab4"><label for="tab4"><img class="icon" src="/plugins/speedtest/icons/scheduler.png">Scheduler</label></div>')
-        .append("<span class='status'><input id='chartSelect' class='hidden' type='checkbox'></span>");
+        .append('<span class="status">&nbsp;<a href="/boot/config/plugins/speedtest/speedtest.xml" download target="_blank"><i class="fa fa-download" title="Download results in XML format"></i></span>')
+        .append('<span class="status">&nbsp;<input id="chartSelect" class="hidden" type="checkbox"></span>');
 
     // dynamix plugin update api
     <?if (function_exists('plugin_update_available') && $version = plugin_update_available('speedtest')):?>
@@ -465,6 +466,15 @@ function parseDataXML(){
             var Share     = ($(this).attr('share')) ? $(this).attr('share').replace('http:',Protocol) : '';
             var Download  = parseFloat(DArray[0]);
             var Upload    = parseFloat(UArray[0]);
+            var PColor    = 'green';
+            var DColor    = 'green';
+            var UColor    = 'green';
+            if (parseFloat(Ping) > parseFloat("<?=$s_ping;?>"))
+                PColor = 'red';
+            if (Download < parseFloat("<?=$s_download;?>"))
+                DColor = 'red';
+            if (Upload < parseFloat("<?=$s_upload;?>"))
+                UColor = 'red';
 
             if(DArray[1] !== Units){
                 if(DArray[1] == 'Mbit/s')
@@ -480,16 +490,16 @@ function parseDataXML(){
             }
 
             $('#tblTests tbody').append(
-                "<tr id='"+Name+"' title='click to show image'>"+
-                "<td class='tdShare' data-sortValue='"+Name+"' >"+new Date(parseInt(Name)).format('Y-m-d H:i D').trim()+"</td>"+
-                "<td class='tdShare'>"+Host+"</td>"+ //Host
-                "<td class='tdShare'>"+Distance+"</td>"+ //Distance
-                "<td class='tdShare'>"+Ping+"</td>"+ //Ping
-                "<td class='tdShare'>"+Download+' '+Units+"</td>"+ //Download
-                "<td class='tdShare'>"+Upload+' '+Units+"</td>"+ //Upload
-                "<td class='tdShare'>"+Share+"</td>"+ //Share
-                "<td><a class='delete' title='delete'><i class='fa fa-trash'></i></a></td>"+ //delete icon
-                "</tr>");
+                '<tr id="'+Name+'" title="click to show image">'+
+                '<td class="tdShare" data-sortValue="'+Name+'" >'+new Date(parseInt(Name)).format('Y-m-d H:i D').trim()+'</td>'+
+                '<td class="tdShare">'+Host+'</td>'+ //Host
+                '<td class="tdShare">'+Distance+'</td>'+ //Distance
+                '<td class="tdShare"><font color="'+ PColor +'">'+Ping+'</font></td>'+ //Ping
+                '<td class="tdShare"><font color="'+ DColor +'">'+Download+' '+Units+'</font></td>'+ //Download
+                '<td class="tdShare"><font color="'+ UColor +'">'+Upload+' '+Units+'</font></td>'+ //Upload
+                '<td class="tdShare">'+Share+'</td>'+ //Share
+                '<td><a class="delete" title="delete"><i class="fa fa-trash"></i></a></td>'+ //delete icon
+                '</tr>');
 
             });
 
