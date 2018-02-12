@@ -16,6 +16,7 @@ require_once '/usr/local/emhttp/plugins/speedtest/include/scheduler_tab.php';
 Speedtest Script Version:
 : <select id="VERSION" name="VERSION" size="1" >
     <?=mk_option($s_version, "latest", "v".$s_latest);?>
+    <?=mk_option($s_version, "1.0.7", "v1.0.7");?>
     <?=mk_option($s_version, "1.0.6", "v1.0.6");?>
     <?=mk_option($s_version, "1.0.3", "v1.0.3");?>
     <?=mk_option($s_version, "1.0.2", "v1.0.2");?>
