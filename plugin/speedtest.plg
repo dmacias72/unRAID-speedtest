@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "speedtest">
 <!ENTITY author    "dmacias72">
-<!ENTITY version   "2018.01.27">
+<!ENTITY version   "2018.02.11">
 <!ENTITY launch    "Settings/SpeedtestSettingsTabs">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unRAID-&name;/master">
 <!ENTITY pluginURL "&gitURL;/plugin/&name;.plg">
@@ -21,6 +21,9 @@ This Plugin installs speedtest-cli for unRaid 6.1  All dependencies are installe
 
 <CHANGES>
 ##&name;
+###2018.02.11
+- update tablesorter 2.29.5
+- update speedtest 2.0
 ###2018.01.27
 - add download button to results page
 - add colors to ping, download, and upload based on thresholds
