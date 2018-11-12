@@ -8,12 +8,12 @@ require_once '/usr/local/emhttp/plugins/speedtest/include/scheduler_tab.php';
 ?>
 <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
 
-<link type="text/css" rel="stylesheet" href="/plugins/speedtest/css/tablesorter.css">
-<link type="text/css" rel="stylesheet" href="/plugins/speedtest/css/tablesorter-<?=($display['theme'] == 'white' || $display['theme'] == 'azure') ? 'white' : 'black';?>.css">
-<link type="text/css" rel="stylesheet" href="/plugins/speedtest/css/speedtest.css">
-<link type="text/css" rel="stylesheet" href="/plugins/speedtest/css/bootstrap.css">
-<link type="text/css" rel="stylesheet" href="/plugins/speedtest/css/bootstrap-<?=($display['theme'] == 'white' || $display['theme'] == 'azure') ? 'white' : 'black';?>.css">
-<link type="text/css" rel="stylesheet" href="/webGui/styles/jquery.switchbutton.css">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/speedtest/css/tablesorter.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/speedtest/css/tablesorter-'.(($display['theme'] == 'white' || $display['theme'] == 'azure') ? 'white' : 'black').'.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/speedtest/css/speedtest.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/speedtest/css/bootstrap.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/plugins/speedtest/css/bootstrap-'.(($display['theme'] == 'white' || $display['theme'] == 'azure') ? 'white' : 'black').'.css');?>">
+<link type="text/css" rel="stylesheet" href="<?=autov('/webGui/styles/jquery.switchbutton.css');?>">
 
 <style>
 table.tablesorter tbody tr:nth-child(odd) {
@@ -119,13 +119,13 @@ table.tablesorter tbody tr:nth-child(even) {
 
 <br>
 
-<script src="/plugins/speedtest/js/jquery.tablesorter.combined.min.js"></script>
-<script src="/plugins/speedtest/js/jquery.tablesorter.pager.min.js"></script>
-<script src="/plugins/speedtest/js/widget-chart.min.js"></script>
-<script src="/plugins/speedtest/js/widget-columnSelector.min.js"></script>
-<script type="text/javascript" src="/plugins/speedtest/js/chrono.min.js"></script>
-<script type="text/javascript" src="/plugins/speedtest/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/webGui/javascript/jquery.switchbutton.js"></script>
+<script type="text/javascript" src="<?=autov('/plugins/speedtest/js/jquery.tablesorter.combined.min.js');?>"></script>
+<script type="text/javascript" src="<?=autov('/plugins/speedtest/js/jquery.tablesorter.pager.min.js');?>"></script>
+<script type="text/javascript" src="<?=autov('/plugins/speedtest/js/widget-chart.min.js');?>"></script>
+<script type="text/javascript" src="<?=autov('/plugins/speedtest/js/widget-columnSelector.min.js');?>"></script>
+<script type="text/javascript" src="<?=autov('/plugins/speedtest/js/chrono.min.js');?>"></script>
+<script type="text/javascript" src="<?=autov('/plugins/speedtest/js/bootstrap.min.js');?>"></script>
+<script type="text/javascript" src="<?=autov('/webGui/javascript/jquery.switchbutton.js');?>"></script>
 
 <script>
 $(function(){

@@ -138,7 +138,7 @@ Upload Threshold <label class="units"></label>:
 
 </form>
 
-<script src="/plugins/speedtest/js/jquery.mask.min.js"></script>
+<script src="<?=autov('/plugins/speedtest/js/jquery.mask.min.js');?>"></script>
 
 <script>
 $(function(){
