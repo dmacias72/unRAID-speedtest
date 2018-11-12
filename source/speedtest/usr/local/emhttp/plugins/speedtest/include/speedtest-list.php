@@ -1,5 +1,9 @@
 <?
-$cmd = '/usr/sbin/speedtest --list 2>/dev/null';
+$response_xml_data = file_get_contents('http://www.speedtest.net/speedtest-servers-static.php');
+ if($response_xml_data){
+     file_put_contents('/boot/build/SpeedTest/servers.xml', $response_xml_data);
+ }
+
 $select  = $_GET['select'];
 exec($cmd, $output);
 
