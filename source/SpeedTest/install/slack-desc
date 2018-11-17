@@ -1,0 +1,20 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+                  |-----handy-ruler------------------------------------------------------|
+SpeedTest: SpeedTest++
+SpeedTest:
+SpeedTest: Features:
+SpeedTest:
+SpeedTest: Yet another unofficial speedtest.net client cli interface
+SpeedTest: It supports the new (undocumented) raw TCP protocol for better accuracy.
+SpeedTest: Best server discovery based on speed and distance from you.
+SpeedTest: Line type discovery to select the best test profile based on your line speed.
+SpeedTest: Aggressive multi-threading program in order to saturate your bandwidth quickly.
+SpeedTest: Test supported: Ping / Jitter / Download speed / Upload speed / Packet loss (UDP).
+SpeedTest: Provide a URL to the speedtest.net share results image using option --share
+SpeedTest: https://github.com/taganaka/SpeedTest
