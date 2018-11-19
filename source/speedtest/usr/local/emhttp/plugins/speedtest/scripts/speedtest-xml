@@ -130,7 +130,7 @@ ob_end_flush();
 
 $xml->asXML($s_filename);
 
-if(nolog){
+if($nolog){
     shell_exec("echo -e 'Host: ${host}' | logger -tspeedtest");
 
     shell_exec("echo -e '${result}' | logger -tspeedtest");
