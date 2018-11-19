@@ -1,22 +1,20 @@
 <?
-$response_xml_data = file_get_contents('http://www.speedtest.net/speedtest-servers-static.php');
- if($response_xml_data){
-     file_put_contents('/boot/build/SpeedTest/servers.xml', $response_xml_data);
+$servers_file = '/boot/config/plugins/speedtest/servers.xml';
+$servers_xml_data = file_get_contents('http://www.speedtest.net/speedtest-servers-static.php');
+ if($servers_xml_data){
+     file_put_contents($servers_file, $servers_xml_data);
  }
-
+$xml = new SimpleXMLElement($servers_xml_data);
 $select  = $_GET['select'];
-exec($cmd, $output);
-
 $options = '';
-$size = sizeof($output);
-for ($i = 2; $i < $size; $i++) {
-    $server = explode(') ', trim($output[$i]),2);
-    $id = $server[0];
 
+foreach ($xml->servers->server as $server) {
+    $id = $server->attributes()->id;
+    $host = $server->attributes()->host;
     $options .= '<option ';
     if ($id == $select)
         $options .= 'selected="" ';
-    $options .= "value='$id'>".str_pad($id, 4, '0', STR_PAD_LEFT)." - ${server[1]}</option>";
+    $options .= "value='$id'>".str_pad($id, 4, '0', STR_PAD_LEFT)." - ${host}</option>";
 }
 
 echo json_encode($options);

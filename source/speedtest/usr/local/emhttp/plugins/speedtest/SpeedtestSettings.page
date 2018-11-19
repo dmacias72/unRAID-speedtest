@@ -24,7 +24,12 @@ Select Speedtest Server:
 >
 > Auto picks closest server for you.
 
- Select Speedtest Units:
+&nbsp;
+: <select class="serverlist" id="SERVER" name="SERVER" size="1">
+        <option value="0"> ...loading speedtest.net server list </option>
+  </select>
+
+Select Speedtest Units:
 : <select id="UNITS" name="UNITS" size="1" class="speedtest-cli">
       <?=mk_option($s_units, "bits", "Mbit/s");?>
       <?=mk_option($s_units, "bytes", "Mbyte/s");?>
@@ -95,10 +100,6 @@ Upload Threshold <label class="units"></label>:
 >
 > Enter lowest upload result (0-9999) to trigger warning. Default is 0.
 
-&nbsp;
-: <select class="serverlist" id="SERVER" name="SERVER" size="1">
-        <option value="0"> ...loading speedtest.net server list </option>
-  </select>
 
 <input id="DEFAULT" type="submit" value="Default">
 : <input id="btnApply" type="submit" value="Apply" ><button type="button" class="begin">Begin Test</button><input type="button" value="Done" onClick="done()">
