@@ -1,5 +1,5 @@
 Menu="NetworkServices"
-Icon="speedtest.png"
+Icon="tachometer"
 Title="Speedtest"
 Type="xmenu"
 Tabs="true"
