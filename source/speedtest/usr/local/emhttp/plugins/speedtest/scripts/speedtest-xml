@@ -1,5 +1,5 @@
 #!/usr/bin/php -q
-<?
+<?php
 $debug = FALSE;
 $prog  = pathinfo(__FILE__, PATHINFO_FILENAME);
 $usage = <<<EOF
@@ -64,69 +64,65 @@ $test = $xml->addChild('test');
 $test->addAttribute('name', round(microtime(true) * 1000));
 
 $options = '';
-if ( $s_list == 'manual')
+if ($s_list == 'manual')
     $options .= " --test-server $s_server";
 if ($s_share == 'yes')
     $options .= ' --share';
-
-$units = ' Mbps ';
-
-$info  = '';
-
+if ($argq)
+    $options .= ' --output text --latency';
+$units = 'Mbps';
 
 $cmd = "/usr/local/bin/SpeedTest $options  2>/dev/null";
-$handle = popen($cmd, 'r');
 
-ob_start();
-$results = '';
-while(!feof($handle)) {
-    $buffer = trim(fgets($handle));
-    $msg = "$buffer\n\n";
-    $output = explode(': ', $buffer);
-    if ((strpos($buffer, 'Server: ')) !== false) {
-        $hostarray = explode(' ', $output[1]);
-        $distarray = explode(' (', $output[1]);
-        $dist = round(floatval(substr($distarray[1], 0, 6)),2);
-        $host = $hostarray[2];
-        $test->addAttribute('host', $host);
-        $test->addAttribute('distance', $dist);
-        $info = "${host} ";
-    }elseif ((strpos($buffer, 'Ping: ')) !== false) {
-        $ping = round(floatval($output[1]));
-        $test->addAttribute('ping', $ping);
-        $result .= 'Ping (Lowest): '.$ping;
-        $info .= $ping.' ms ';
-    }elseif ((strpos($buffer, 'Jitter: ')) !== false) {
-        $jitter = round(floatval($output[1]));
-        $test->addAttribute('jitter', $jitter);
-    }elseif ((strpos($buffer, 'detected: ')) !== false) {
-        $profile = trim(str_replace('profile selected ', '', $output[1]));
-        $test->addAttribute('profile', $profile);
-        $msg .= "Testing download speed...\n\n";
-    }elseif ((strpos($buffer, 'Download:')) !== false) {
-        $download = round(floatval($output[1]),2);
-        $test->addAttribute('download', $download);
-        $result .= ' | Download (Max): '.$download;
-        $info .= 'DL: '.$download.$units;
-        $msg .= "Testing upload speed...\n\n";
-    }elseif ((strpos($buffer, 'Upload:')) !== false) {
-        $upload = round(floatval($output[1]),2);
-        $test->addAttribute('upload', $upload);
-        $result .= ' | Upload (Max): '.$upload;
-        $info .= 'UL: '.$upload.$units;
-    }elseif ((strpos($buffer, "Results image:")) !== false) {
-        $test->addAttribute('share', $output[1]);
-    }elseif (((strpos($buffer, 'Testing download')) !== false) || ((strpos($buffer, 'Testing upload')) !== false)) {
-        $msg = "";}
-    echo "$msg";
+if ($argq){
+    exec($cmd,$output);
 
-    ob_flush();
+
+    print_r($output);
+}else{
+    $handle = popen($cmd, 'r');
+    ob_start();
+    while(!feof($handle)) {
+        $buffer = trim(fgets($handle));
+        $msg = "$buffer\n\n";
+        $output = explode(': ', $buffer);
+        if ((strpos($buffer, 'Server: ')) !== false) {
+            $hostarray = explode(' ', $output[1]);
+            $distarray = explode(' (', $output[1]);
+            $dist = round(floatval(substr($distarray[1], 0, 6)),2);
+            $host = $hostarray[2];
+            $test->addAttribute('host', $host);
+            $test->addAttribute('distance', $dist);
+        }elseif ((strpos($buffer, 'Ping: ')) !== false) {
+            $ping = round(floatval($output[1]));
+            $test->addAttribute('ping', $ping);
+        }elseif ((strpos($buffer, 'Jitter: ')) !== false) {
+            $jitter = round(floatval($output[1]));
+            $test->addAttribute('jitter', $jitter);
+        }elseif ((strpos($buffer, 'detected: ')) !== false) {
+            $profile = trim(str_replace('profile selected ', '', $output[1]));
+            $test->addAttribute('profile', $profile);
+            $msg .= "Testing download speed...\n\n";
+        }elseif ((strpos($buffer, 'Download:')) !== false) {
+            $download = round(floatval($output[1]),2);
+            $test->addAttribute('download', $download);
+            $msg .= "Testing upload speed...\n\n";
+        }elseif ((strpos($buffer, 'Upload:')) !== false) {
+            $upload = round(floatval($output[1]),2);
+            $test->addAttribute('upload', $upload);
+        }elseif ((strpos($buffer, "Results image:")) !== false) {
+            $test->addAttribute('share', $output[1]);
+        }elseif (((strpos($buffer, 'Testing download')) !== false) || ((strpos($buffer, 'Testing upload')) !== false)) {
+            $msg = '';}
+        echo "$msg";
+        ob_flush();
+    }
+    pclose($handle);
+    ob_end_flush();
 }
 
-
-pclose($handle);
-
-ob_end_flush();
+$info = "Download: ${download} ${units} Upload: ${upload} $units Ping: ${ping} ms  Host: ${host}";
+$result = 'Ping (Lowest): '.$ping.' | Download (Max): '.$download.' | Upload (Max): '.$upload;
 
 $xml->asXML($s_filename);
 
