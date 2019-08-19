@@ -59,26 +59,28 @@ echo "Internet bandwidth test started\n\n";
 if($nolog)
     shell_exec("echo -e 'Internet bandwidth test started' | logger -tspeedtest");
 
-$xml = simplexml_load_file($s_filename);
-$test = $xml->addChild('test');
-$test->addAttribute('name', round(microtime(true) * 1000));
-
 $options = '';
 if ($s_list == 'manual')
     $options .= " --test-server $s_server";
 if ($s_share == 'yes')
     $options .= ' --share';
 if ($argq)
-    $options .= ' --output text --latency';
+    $options .= ' --output text';
 $units = 'Mbps';
 
 $cmd = "/usr/local/bin/SpeedTest $options  2>/dev/null";
 
+$results = [];
+
 if ($argq){
     exec($cmd,$output);
+    $size = count($output);
 
+    for ($i=0; $i < $size ; $i++) {
+        $value = explode('=', $output[$i]);
+        $results[$value[0]] = $value[1];
+    }
 
-    print_r($output);
 }else{
     $handle = popen($cmd, 'r');
     ob_start();
@@ -89,29 +91,22 @@ if ($argq){
         if ((strpos($buffer, 'Server: ')) !== false) {
             $hostarray = explode(' ', $output[1]);
             $distarray = explode(' (', $output[1]);
-            $dist = round(floatval(substr($distarray[1], 0, 6)),2);
-            $host = $hostarray[2];
-            $test->addAttribute('host', $host);
-            $test->addAttribute('distance', $dist);
+            $results['TEST_SERVER_DISTANCE'] = substr($distarray[1], 0, 6);
+            $results['TEST_SERVER_HOST'] = $hostarray[2];
         }elseif ((strpos($buffer, 'Ping: ')) !== false) {
-            $ping = round(floatval($output[1]));
-            $test->addAttribute('ping', $ping);
+            $results['LATENCY'] = $output[1];
         }elseif ((strpos($buffer, 'Jitter: ')) !== false) {
-            $jitter = round(floatval($output[1]));
-            $test->addAttribute('jitter', $jitter);
+            $results['JITTER'] = $output[1];
         }elseif ((strpos($buffer, 'detected: ')) !== false) {
-            $profile = trim(str_replace('profile selected ', '', $output[1]));
-            $test->addAttribute('profile', $profile);
+            //$profile = trim(str_replace('profile selected ', '', $output[1]));
             $msg .= "Testing download speed...\n\n";
         }elseif ((strpos($buffer, 'Download:')) !== false) {
-            $download = round(floatval($output[1]),2);
-            $test->addAttribute('download', $download);
+            $results['DOWNLOAD_SPEED'] = $output[1];
             $msg .= "Testing upload speed...\n\n";
         }elseif ((strpos($buffer, 'Upload:')) !== false) {
-            $upload = round(floatval($output[1]),2);
-            $test->addAttribute('upload', $upload);
+            $results['UPLOAD_SPEED'] = $output[1];
         }elseif ((strpos($buffer, "Results image:")) !== false) {
-            $test->addAttribute('share', $output[1]);
+            $results['IMAGE_URL'] = $output[1];
         }elseif (((strpos($buffer, 'Testing download')) !== false) || ((strpos($buffer, 'Testing upload')) !== false)) {
             $msg = '';}
         echo "$msg";
@@ -121,9 +116,25 @@ if ($argq){
     ob_end_flush();
 }
 
+$host     = $results['TEST_SERVER_HOST'];
+$ping     = round(floatval($results['LATENCY']));
+$download = round(floatval($results['DOWNLOAD_SPEED']),2);
+$upload   = round(floatval($results['UPLOAD_SPEED']),2);
+
 $info = "Download: ${download} ${units} Upload: ${upload} $units Ping: ${ping} ms  Host: ${host}";
 $result = 'Ping (Lowest): '.$ping.' | Download (Max): '.$download.' | Upload (Max): '.$upload;
 
+// write to speedtest.xml
+$xml = simplexml_load_file($s_filename);
+$test = $xml->addChild('test');
+$test->addAttribute('name', round(microtime(true) * 1000));
+$test->addAttribute('host', $host);
+$test->addAttribute('distance', $results['TEST_SERVER_DISTANCE']);
+$test->addAttribute('ping', $ping);
+$test->addAttribute('jitter', $results['JITTER']);
+$test->addAttribute('download', $download);
+$test->addAttribute('upload', $upload);
+$test->addAttribute('share', $results['IMAGE_URL']);
 $xml->asXML($s_filename);
 
 if($nolog){
