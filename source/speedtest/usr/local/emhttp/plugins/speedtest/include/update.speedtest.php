@@ -19,7 +19,7 @@ if ($_POST['mode']>0) {
   $min  = isset($_POST['min'])  ? intval($_POST['min'])  : '*';
   $dotm = isset($_POST['dotm']) ? intval($_POST['dotm']) : '*';
   $day  = isset($_POST['day'])  ? intval($_POST['day'])  : '*';
-  $cron = "# Generated speedtest schedule:\n$min $hour $dotm * $day /usr/sbin/speedtest-xml &> /dev/null\n\n";
+  $cron = "# Generated speedtest schedule:\n$min $hour $dotm * $day /usr/sbin/speedtest-xml --q &> /dev/null\n\n";
 } else {
   $cron = "";
 }
